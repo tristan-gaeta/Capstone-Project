@@ -5,12 +5,6 @@ public class MovingPlatform : MonoBehaviour
     public Vector3 locA, locB;
     public float travelTime;
 
-
-    void Start()
-    {
-        this.transform.position = locA;
-    }
-
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -30,12 +24,10 @@ public class MovingPlatform : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         other.transform.SetParent(this.transform);
-        Debug.Log("in");
     }
 
     void OnTriggerExit(Collider other)
     {
         other.transform.SetParent(null);
-        Debug.Log("out");
     }
 }

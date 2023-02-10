@@ -1,21 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    public float walkSpeed = 5; // m/s
-    public float turnSpeed = 90; // degrees/s
-    public float jumpHeight = 1; // m
-    public float gravity = -9.807f; // earth's gravitational constant
+    public float walkSpeed; // m/s
+    public float turnSpeed; // degrees/s
+    public float jumpHeight; // m
+    public float gravity;
     public Vector3 velocity;
     public CharacterController controller;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        this.controller = GetComponent<CharacterController>();
-    }
 
     // Update is called once per frame
     void Update()
@@ -41,5 +33,17 @@ public class Movement : MonoBehaviour
 
         this.velocity.y += this.gravity * Time.deltaTime;
         controller.Move((movement + this.velocity) * Time.deltaTime);
+    }
+
+    void OnApplicationFocus(bool focused)
+    {
+        if (focused)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
     }
 }
