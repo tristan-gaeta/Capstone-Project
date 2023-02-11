@@ -2,48 +2,30 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    public float walkSpeed; // m/s
-    public float turnSpeed; // degrees/s
-    public float jumpHeight; // m
-    public float gravity;
-    public Vector3 velocity;
-    public CharacterController controller;
-
-    // Update is called once per frame
-    void Update()
+    public Vector3 ForwardBack(float walkSpeed, float direction)
     {
-        // stop accumulation of gravity
-        if (controller.isGrounded && velocity.y < 0) velocity.y = 0f;
-
-        // rotation
-        float rotation = Input.GetAxis("Horizontal");
-        if (rotation != 0)
-        {
-            this.transform.Rotate(Vector3.up, rotation * this.turnSpeed * Time.deltaTime);
-        }
-
-        // walking
-        Vector3 movement = Input.GetAxis("Vertical") * this.transform.forward * this.walkSpeed;
-
-        // jumping
-        if (Input.GetButtonDown("Jump") && controller.isGrounded)
-        {
-            this.velocity.y = Mathf.Sqrt(this.jumpHeight * -2f * this.gravity);
-        }
-
-        this.velocity.y += this.gravity * Time.deltaTime;
-        controller.Move((movement + this.velocity) * Time.deltaTime);
+        Vector3 movement = direction * this.transform.forward * walkSpeed;
+        return movement;
     }
 
-    void OnApplicationFocus(bool focused)
+    public Vector3 Strafe(float walkSpeed, float direction)
     {
-        if (focused)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.None;
-        }
+        Vector3 movement = direction * this.transform.right * walkSpeed;
+        return movement;
+    }
+
+    public static Vector3 GetDirectionWASD(float horizontal, float vertical, float yRotation, out float magnitude)
+    {
+        Vector3 movement = new Vector3(horizontal, 0, vertical);
+        magnitude = Mathf.Clamp01(movement.magnitude);
+        movement = Quaternion.AngleAxis(yRotation, Vector3.up) * movement;
+        movement.Normalize();
+        return movement;
+    }
+
+    public static float Jump(float jumpHeight, float gravity)
+    {
+        float yVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        return yVelocity;
     }
 }
