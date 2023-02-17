@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyContact : MonoBehaviour
 {
     public float knockback;
-    public float damage;
+    public int damage;
     public float stunTime;
 
     // Start is called before the first frame update
@@ -20,9 +20,12 @@ public class EnemyContact : MonoBehaviour
             otherGameObject.GetComponent<PlayerMovement>().Knockback(knockback, direction,stunTime);
             //pushes the enemy back after it hits the player, to prevent it comboing the player
             this.gameObject.GetComponent<BasicEnemyAI>().Knockback(knockback / 2, enemyKnockbackDirection, stunTime/2);
-            DealDamage.DamageTarget(damage, other.gameObject);
+            otherGameObject.GetComponent<Health>().TakeDamage(damage);
         } else if (otherGameObject.CompareTag("Weapon")){
+            print("ouch");
             Vector3 direction = this.transform.position - other.transform.position;
+            this.GetComponent<BasicEnemyAI>().Knockback(knockback, direction, stunTime);
+            this.GetComponent<Health>().TakeDamage(other.gameObject.GetComponent<Weapon>().damage);
             //DealDamage.CauseKnockback(other.gameObject.GetComponent<Weapon>().knockback, direction, this.gameObject, other.gameObject.GetComponent<Weapon>().stunTime);
             //DealDamage.DamageTarget(other.gameObject.GetComponent<Weapon>().damage, this.gameObject);
         }

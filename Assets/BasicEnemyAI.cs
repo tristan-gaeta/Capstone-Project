@@ -62,7 +62,6 @@ public class BasicEnemyAI : MonoBehaviour
     {
         Vector3 movement = new Vector3(0, 0, 0);
         float speedSquared = Mathf.Pow(this.lastPosition.x - this.transform.position.x, 2) + Mathf.Pow(this.lastPosition.z - this.transform.position.z, 2);
-        Debug.Log(speedSquared);
         if (controller.isGrounded && speedSquared < 0.03)
         {
             this.velocity.y = Movement.Jump(jumpHeight, gravity);

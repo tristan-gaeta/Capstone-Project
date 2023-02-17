@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     private float knockbackTime;
     private float totalStunTime;
     private Vector3 knockbackVelocity;
+    private GameObject weapon;
 
     // Start is called before the first frame update
 
