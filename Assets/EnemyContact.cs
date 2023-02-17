@@ -23,8 +23,8 @@ public class EnemyContact : MonoBehaviour
             DealDamage.DamageTarget(damage, other.gameObject);
         } else if (otherGameObject.CompareTag("Weapon")){
             Vector3 direction = this.transform.position - other.transform.position;
-            DealDamage.CauseKnockback(other.gameObject.GetComponent<Weapon>().knockback, direction, this.gameObject, other.gameObject.GetComponent<Weapon>().stunTime);
-            DealDamage.DamageTarget(other.gameObject.GetComponent<Weapon>().damage, this.gameObject);
+            //DealDamage.CauseKnockback(other.gameObject.GetComponent<Weapon>().knockback, direction, this.gameObject, other.gameObject.GetComponent<Weapon>().stunTime);
+            //DealDamage.DamageTarget(other.gameObject.GetComponent<Weapon>().damage, this.gameObject);
         }
     }
 }
