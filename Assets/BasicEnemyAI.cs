@@ -7,9 +7,9 @@ public class BasicEnemyAI : MonoBehaviour
     FieldOfView fov;
     CharacterController controller;
     public float walkSpeed = 2.5f;
-    public Vector3 velocity;
     public float gravity = -9.807f;
     public float jumpHeight = 1;
+    Vector3 velocity;
     public Rigidbody rigidbody;
     public Vector3 lastPosition;
     public float attemptJumpTime = 0.1f;
@@ -26,6 +26,8 @@ public class BasicEnemyAI : MonoBehaviour
         this.fov = GetComponent<FieldOfView>();
         rigidbody = GetComponent<Rigidbody>();
         this.lastPosition = this.transform.position;
+        Vector3 velocity =new Vector3(0,0,0);
+        this.knockbackTime=-1;
     }
 
 
@@ -49,7 +51,8 @@ public class BasicEnemyAI : MonoBehaviour
                 }
                 time += Time.deltaTime;
             }
-            this.velocity.y += this.gravity * Time.deltaTime;
+            this.velocity.y+= this.gravity * Time.deltaTime;
+            Debug.Log((movement + this.velocity) * Time.deltaTime);
             controller.Move((movement + this.velocity) * Time.deltaTime);
         }
         else
