@@ -7,7 +7,6 @@ public class BasicEnemyAI : MonoBehaviour
     FieldOfView fov;
     CharacterController controller;
     public float walkSpeed = 2.5f;
-    public Movement movementHelper;
     public Vector3 velocity;
     public float gravity = -9.807f;
     public float jumpHeight = 1;
@@ -16,11 +15,14 @@ public class BasicEnemyAI : MonoBehaviour
     public float attemptJumpTime = 0.1f;
     private float time = 0.0f;
 
+    private float knockbackTime;
+    private float totalStunTime;
+    private Vector3 knockbackVelocity;
+
     // Start is called before the first frame update
     void Start()
     {
         this.controller = GetComponent<CharacterController>();
-        this.movementHelper = GetComponent<Movement>();
         this.fov = GetComponent<FieldOfView>();
         rigidbody = GetComponent<Rigidbody>();
         this.lastPosition = this.transform.position;
@@ -30,23 +32,31 @@ public class BasicEnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (controller.isGrounded && velocity.y < 0) velocity.y = 0f;
-        Vector3 movement = new Vector3(0, 0, 0);
-        if (fov.canSeePlayer)
+        if (knockbackTime < 0)
         {
-            Vector3 targetFlatPosition = new Vector3(fov.playerReference.transform.position.x, this.transform.position.y, fov.playerReference.transform.position.z);
-            this.transform.LookAt(targetFlatPosition);
-            movement += movementHelper.ForwardBack(walkSpeed, 1);
-            if (this.time > attemptJumpTime)
+
+            if (controller.isGrounded && velocity.y < 0) velocity.y = 0f;
+            Vector3 movement = new Vector3(0, 0, 0);
+            if (fov.canSeePlayer)
             {
-                AttemptJump();
-                time = 0f;
+                Vector3 targetFlatPosition = new Vector3(fov.playerReference.transform.position.x, this.transform.position.y, fov.playerReference.transform.position.z);
+                this.transform.LookAt(targetFlatPosition);
+                movement += Movement.ForwardBack(walkSpeed, 1, this.transform);
+                if (this.time > attemptJumpTime)
+                {
+                    AttemptJump();
+                    time = 0f;
+                }
+                time += Time.deltaTime;
             }
-            time += Time.deltaTime;
+            this.velocity.y += this.gravity * Time.deltaTime;
+            controller.Move((movement + this.velocity) * Time.deltaTime);
         }
-        this.velocity.y += this.gravity * Time.deltaTime;
-        controller.Move((movement + this.velocity) * Time.deltaTime);
+        else
+        {
+            this.GetComponent<CharacterController>().Move(this.knockbackVelocity * Time.deltaTime * knockbackTime / totalStunTime);
+            knockbackTime -= Time.deltaTime;
+        }
     }
     private void AttemptJump()
     {
@@ -59,5 +69,12 @@ public class BasicEnemyAI : MonoBehaviour
         }
         controller.Move((movement + this.velocity) * Time.deltaTime);
         this.lastPosition = this.transform.position;
+    }
+    public void Knockback(float knockback, Vector3 direction, float knockbackStunTime)
+    {
+
+        this.knockbackTime = knockbackStunTime;
+        this.totalStunTime = knockbackStunTime;
+        this.knockbackVelocity = direction * knockback;
     }
 }

@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    public Vector3 ForwardBack(float walkSpeed, float direction)
+    public static Vector3 ForwardBack(float walkSpeed, float direction,Transform transform)
     {
-        Vector3 movement = direction * this.transform.forward * walkSpeed;
+        Vector3 movement = direction * transform.forward * walkSpeed;
         return movement;
     }
 
-    public Vector3 Strafe(float walkSpeed, float direction)
+    public static Vector3 Strafe(float walkSpeed, float direction, Transform transform)
     {
-        Vector3 movement = direction * this.transform.right * walkSpeed;
+        Vector3 movement = direction * transform.right * walkSpeed;
         return movement;
     }
 
@@ -28,4 +28,5 @@ public class Movement : MonoBehaviour
         float yVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
         return yVelocity;
     }
+
 }
