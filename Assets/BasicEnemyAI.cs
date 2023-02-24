@@ -13,11 +13,14 @@ public class BasicEnemyAI : MonoBehaviour
     public Rigidbody rigidbody;
     public Vector3 lastPosition;
     public float attemptJumpTime = 0.1f;
+    public float timeToChooseDirection = 1.75f;
     private float time = 0.0f;
 
     private float knockbackTime;
     private float totalStunTime;
     private Vector3 knockbackVelocity;
+    public float timeUntilNewDirection;
+    private bool directionChosen = false;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +29,7 @@ public class BasicEnemyAI : MonoBehaviour
         this.fov = GetComponent<FieldOfView>();
         rigidbody = GetComponent<Rigidbody>();
         this.lastPosition = this.transform.position;
+        timeUntilNewDirection = 0f;
     }
 
 
@@ -48,6 +52,25 @@ public class BasicEnemyAI : MonoBehaviour
                     time = 0f;
                 }
                 time += Time.deltaTime;
+            }
+            else
+            {
+                if (timeUntilNewDirection < 0) {
+                    if (!directionChosen)
+                    {
+                        this.transform.rotation = Quaternion.Euler(0, Random.Range(-360, 360), 0);
+                        timeUntilNewDirection = timeToChooseDirection;
+                        directionChosen = true;
+                        Debug.Log("I have a new Direction!");
+                    }
+                }
+                else
+                {
+                    directionChosen = false;
+                    timeUntilNewDirection -= Time.deltaTime;
+                    movement += Movement.ForwardBack(walkSpeed, 1, this.transform);
+                }
+
             }
             this.velocity.y += this.gravity * Time.deltaTime;
             controller.Move((movement + this.velocity) * Time.deltaTime);

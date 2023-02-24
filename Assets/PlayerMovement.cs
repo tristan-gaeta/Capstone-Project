@@ -25,7 +25,10 @@ public class PlayerMovement : MonoBehaviour
     private GameObject weapon;
 
     // Start is called before the first frame update
-
+    private void Start()
+    {
+        Time.timeScale = 1f;
+    }
     // Update is called once per frame
     void Update()
     {
