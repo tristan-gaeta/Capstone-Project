@@ -27,6 +27,7 @@
 .vs/
 .vscode/
 .vcconfig
+.vsconfig
 
 # Gradle cache directory
 .gradle/
@@ -121,4 +122,3 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-.vsconfig
