@@ -23,7 +23,7 @@ public class EnemyContact : MonoBehaviour
             otherGameObject.GetComponent<Health>().TakeDamage(damage);
         } else if (otherGameObject.CompareTag("Weapon")){
             print("ouch");
-            Vector3 direction = this.transform.position - other.transform.position;
+            Vector3 direction = this.transform.position - other.transform.parent.position;
             this.GetComponent<BasicEnemyAI>().Knockback(knockback, direction, stunTime);
             this.GetComponent<Health>().TakeDamage(other.gameObject.GetComponent<Weapon>().damage);
             //DealDamage.CauseKnockback(other.gameObject.GetComponent<Weapon>().knockback, direction, this.gameObject, other.gameObject.GetComponent<Weapon>().stunTime);

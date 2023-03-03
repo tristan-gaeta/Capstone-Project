@@ -11,6 +11,7 @@ public class Health : MonoBehaviour
     public Image[] hearts;
     public Sprite fullHeart;
     public Sprite emptyHeart;
+    public GameObject gameoverScreen;
     void Start()
     {
         health = maxHealth;
@@ -19,7 +20,7 @@ public class Health : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (hearts != null) {
+        if (hearts.Length>0) {
             for (int i = 0; i < hearts.Length; i++) {
                 if (i < health) {
                     hearts[i].sprite = fullHeart;
@@ -36,8 +37,13 @@ public class Health : MonoBehaviour
                     hearts[i].enabled = false;
                 }
             }
-        }
-        if (health <= 0) {
+            if (health <= 0)
+            {
+                Time.timeScale = 0f;
+                Cursor.lockState = CursorLockMode.Confined;
+                gameoverScreen.SetActive(true);
+            }
+        }else if (health <= 0) {
             Destroy(this.gameObject);
         }
     }

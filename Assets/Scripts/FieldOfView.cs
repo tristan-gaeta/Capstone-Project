@@ -11,9 +11,12 @@ public class FieldOfView : MonoBehaviour
     public LayerMask targetMask;
     public LayerMask obstructionMask;
     public bool canSeePlayer;
+    public Vector3 lastPlayerPosition;
+    public bool checkedLastPosition;
     // Start is called before the first frame update
     void Start()
     {
+        checkedLastPosition = true;
         playerReference = GameObject.FindGameObjectWithTag("Player");
         StartCoroutine(FOVRoutine());
     }
@@ -25,27 +28,34 @@ public class FieldOfView : MonoBehaviour
             FieldOfViewCheck();
         }
     }
-    private void FieldOfViewCheck() {
+    private void FieldOfViewCheck() 
+    {
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
-        if (rangeChecks.Length != 0) {
+        if (rangeChecks.Length != 0) 
+        {
             Transform target = rangeChecks[0].transform;
             Vector3 directionToTarget = (target.position - transform.position).normalized;
-            if (Vector3.Angle(transform.forward,directionToTarget)<angle/2) {
+            if (Vector3.Angle(transform.forward,directionToTarget)<angle/2) 
+            {
                 float distanceToTarget = Vector3.Distance(transform.position, target.position);
                 if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                 {
                     canSeePlayer = true;
+                    lastPlayerPosition = target.position;
                 }
-                else {
+                else 
+                {
                     canSeePlayer = false;
                 }
-            } else {
+            } else 
+            {
                 canSeePlayer = false;
             }
         }
         else if (canSeePlayer)
         {
             canSeePlayer = false;
+            checkedLastPosition = false;
         }
     }
 }
