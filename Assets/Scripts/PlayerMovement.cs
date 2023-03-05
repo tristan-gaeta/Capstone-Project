@@ -9,13 +9,16 @@ public class PlayerMovement : MonoBehaviour
     private float jumpHeight; // m
     [SerializeField]
     private float jumpHorizontalSpeed;
-    private float yVelocity;
-    private CharacterController controller;
     [SerializeField]
     private Transform cameraTransform;
-
     [SerializeField]
     private float knockbackTime;
+    [SerializeField]
+    private float jumpGracePeriod;
+    [SerializeField]
+    private float fallThreshold;
+    private float yVelocity;
+    private CharacterController controller;
     private Animator animator;
     private float totalStunTime;
     private Vector3 knockbackVelocity;
@@ -24,8 +27,6 @@ public class PlayerMovement : MonoBehaviour
     // making these variables nullable prevents the player from constantly jumping.
     private float? lastGroundedTime;
     private float? lastJumpRequestTime;
-    [SerializeField]
-    private float jumpGracePeriod;
     private float stepOffset;
     private bool isJumping;
     private bool isGrounded;
@@ -84,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
                 this.animator.SetBool("Is Grounded", false);
                 this.isGrounded = false;
 
-                if ((this.isJumping && this.yVelocity <= 0) || this.yVelocity < -7)
+                if ((this.isJumping && this.yVelocity <= 0) || this.yVelocity < this.fallThreshold)
                 {
                     this.animator.SetBool("Is Falling", true);
                 }
