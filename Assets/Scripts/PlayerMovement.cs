@@ -17,6 +17,9 @@ public class PlayerMovement : MonoBehaviour
     private float jumpGracePeriod;
     [SerializeField]
     private float fallThreshold;
+    [SerializeField]
+    private float attackGracePeriod;
+    private float lastAttackRequestTime;
     private float yVelocity;
     private CharacterController controller;
     private Animator animator;
@@ -124,6 +127,18 @@ public class PlayerMovement : MonoBehaviour
                 velocity.y = this.yVelocity;
                 this.controller.Move(velocity * Time.deltaTime);
             }
+
+            /* attack */
+            if (Input.GetButton("Fire1")) this.lastAttackRequestTime = Time.time;
+            if (Time.time - this.lastAttackRequestTime <= this.attackGracePeriod)
+            {
+                this.animator.SetBool("Is Attacking", true);
+            }
+            else
+            {
+                this.animator.SetBool("Is Attacking", false);
+            }
+
         }
         else
         {
