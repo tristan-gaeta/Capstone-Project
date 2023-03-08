@@ -70,8 +70,8 @@ public class PlayerMovement : MonoBehaviour
             Vector3 inputDirection = this.GetMovementInput(out inputMagnitude);
 
             float targetSpeed = inputMagnitude * this.maxSpeed;
-            this.animator.SetFloat("X Velocity", inputDirection.x * targetSpeed, 0.05f, Time.deltaTime);
-            this.animator.SetFloat("Z Velocity", inputDirection.z * targetSpeed, 0.05f, Time.deltaTime);
+            this.animator.SetFloat("X Velocity", inputDirection.x * targetSpeed, 0.2f, Time.deltaTime);
+            this.animator.SetFloat("Z Velocity", inputDirection.z * targetSpeed, 0.2f, Time.deltaTime);
 
             /* Jumping */
             if (this.controller.isGrounded)

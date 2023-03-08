@@ -14,15 +14,16 @@ public class EnemyContact : MonoBehaviour
         GameObject otherGameObject = other.gameObject;
         if (otherGameObject.CompareTag("Player"))
         {
-            Vector3 direction =  other.transform.position-this.transform.position;
+            Vector3 direction = other.transform.position - this.transform.position;
             Vector3 enemyKnockbackDirection = direction * -1;
             direction.y += 0.25f;
-            otherGameObject.GetComponent<PlayerMovement>().Knockback(knockback, direction,stunTime);
+            otherGameObject.GetComponent<PlayerMovement>().Knockback(knockback, direction, stunTime);
             //pushes the enemy back after it hits the player, to prevent it comboing the player
-            this.gameObject.GetComponent<BasicEnemyAI>().Knockback(knockback / 2, enemyKnockbackDirection, stunTime/2);
+            this.gameObject.GetComponent<BasicEnemyAI>().Knockback(knockback / 2, enemyKnockbackDirection, stunTime / 2);
             otherGameObject.GetComponent<Health>().TakeDamage(damage);
-        } else if (otherGameObject.CompareTag("Weapon")){
-            print("ouch");
+        }
+        else if (otherGameObject.CompareTag("Weapon"))
+        {
             Vector3 direction = this.transform.position - other.transform.position;
             this.GetComponent<BasicEnemyAI>().Knockback(knockback, direction, stunTime);
             this.GetComponent<Health>().TakeDamage(other.gameObject.GetComponent<Weapon>().damage);
