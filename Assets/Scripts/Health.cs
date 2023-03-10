@@ -55,7 +55,6 @@ public class Health : MonoBehaviour
     }
     public void TakeDamage(int damage)
     {
-        print("I've taken damage");
         health = health - damage;
     }
 }

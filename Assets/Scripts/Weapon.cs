@@ -8,37 +8,14 @@ public class Weapon : MonoBehaviour
     public float knockback;
     public int damage;
     public float stunTime;
-    public float swingSpeed;
-    public float weaponSize;
-    private bool canAttack;
-    public GameObject Sword;
-    public float attackCooldown;
-    void Start()
-    {
-        this.transform.SetParent(GameObject.FindGameObjectWithTag("Player").transform);
-        canAttack = true;
-    }
+    public GameObject parent;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        if (Input.GetButton("Fire1")) {
-            SwordAttack();
-        }
     }
-    public void SwordAttack() {
-        canAttack = false;
-        Animator weaponAnimation = this.GetComponent<Animator>();
-        weaponAnimation.SetTrigger("Attack");
-        StartCoroutine(ResetWeapon(weaponAnimation));
-
-    }
-    IEnumerator ResetWeapon(Animator weaponAnimation) 
+    private void Update()
     {
-    yield return new WaitForSeconds(attackCooldown);
-        canAttack = true;
-        weaponAnimation.ResetTrigger("Attack");
-        {
-    };
+            this.GetComponent<BoxCollider>().enabled = parent.GetComponent<Animator>().GetBool("Is Attacking");
     }
 }
+

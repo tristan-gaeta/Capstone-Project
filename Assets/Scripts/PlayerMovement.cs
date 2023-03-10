@@ -143,7 +143,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            // this.GetComponent<CharacterController>().Move(this.knockbackVelocity * Time.deltaTime * knockbackTime / totalStunTime);
+            this.GetComponent<CharacterController>().Move(this.knockbackVelocity * Time.deltaTime * knockbackTime / totalStunTime);
             knockbackTime -= Time.deltaTime;
 
         }
