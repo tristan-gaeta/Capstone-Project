@@ -41,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
         this.animator = this.GetComponent<Animator>();
         this.controller = this.GetComponent<CharacterController>();
         this.stepOffset = controller.stepOffset;
+        Time.timeScale = 1f;
     }
 
     /**

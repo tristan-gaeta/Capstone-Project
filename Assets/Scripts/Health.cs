@@ -11,6 +11,7 @@ public class Health : MonoBehaviour
     public Image[] hearts;
     public Sprite fullHeart;
     public Sprite emptyHeart;
+    public GameObject gameoverScreen;
     void Start()
     {
         health = maxHealth;
@@ -19,16 +20,20 @@ public class Health : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (hearts != null) {
-            for (int i = 0; i < hearts.Length; i++) {
-                if (i < health) {
+        if (hearts.Length > 0)
+        {
+            for (int i = 0; i < hearts.Length; i++)
+            {
+                if (i < health)
+                {
                     hearts[i].sprite = fullHeart;
                 }
                 else
                 {
                     hearts[i].sprite = emptyHeart;
                 }
-                if (i < maxHealth) {
+                if (i < maxHealth)
+                {
                     hearts[i].enabled = true;
                 }
                 else
@@ -36,14 +41,21 @@ public class Health : MonoBehaviour
                     hearts[i].enabled = false;
                 }
             }
+            if (health <= 0)
+            {
+                Time.timeScale = 0f;
+                Cursor.lockState = CursorLockMode.Confined;
+                gameoverScreen.SetActive(true);
+            }
         }
-        if (health <= 0) {
+        else if (health <= 0)
+        {
             Destroy(this.gameObject);
         }
     }
     public void TakeDamage(int damage)
     {
         print("I've taken damage");
-        health = health- damage;
+        health = health - damage;
     }
 }
